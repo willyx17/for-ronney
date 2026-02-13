@@ -1,93 +1,39 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ليكِ ❤️</title>
-
+<title>ليكي ❤️</title>
 <style>
 body{
   margin:0;
   font-family:system-ui;
-  background:linear-gradient(135deg,#ffd1dc,#ffe6ee);
+  background:linear-gradient(135deg,#ffd1dc,#ffe9f1);
   text-align:center;
-  overflow:hidden;
+  overflow-x:hidden;
 }
 
 /* الكارت */
 .card{
   background:white;
-  padding:30px;
-  border-radius:25px;
-  box-shadow:0 10px 30px rgba(0,0,0,.15);
-  max-width:520px;
-  margin:120px auto;
+  padding:28px;
+  border-radius:24px;
+  width:90%;
+  max-width:430px;
+  margin:80px auto;
+  box-shadow:0 12px 35px rgba(0,0,0,.15);
   position:relative;
   z-index:2;
 }
 
-/* زر */
 button{
   background:#ff4d6d;
   color:white;
   border:none;
-  padding:15px 30px;
-  border-radius:30px;
+  padding:14px 26px;
+  border-radius:28px;
   font-size:18px;
   cursor:pointer;
-  transition:.3s;
-}
-button:hover{ transform:scale(1.05); }
-
-/* القلوب */
-.hearts{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  overflow:hidden;
-  z-index:0;
-}
-.heart{
-  position:absolute;
-  width:20px;height:20px;
-  background:red;
-  transform:rotate(45deg);
-  animation:float linear infinite;
-  opacity:.7;
-}
-.heart::before,.heart::after{
-  content:'';
-  position:absolute;
-  width:20px;height:20px;
-  background:red;
-  border-radius:50%;
-}
-.heart::before{ top:-10px; left:0;}
-.heart::after{ left:-10px; top:0;}
-
-@keyframes float{
-  from{transform:translateY(100vh) rotate(45deg);}
-  to{transform:translateY(-10vh) rotate(45deg);}
-}
-
-/* الكتابة */
-#text{
-  white-space:pre-line;
-  line-height:2;
-  font-size:18px;
-}
-
-/* النهاية */
-#final{
-  display:none;
-  font-size:26px;
-  margin-top:25px;
-  animation:fade 2s forwards;
-}
-
-@keyframes fade{
-  from{opacity:0; transform:translateY(20px);}
-  to{opacity:1; transform:translateY(0);}
 }
 
 input{
@@ -95,128 +41,139 @@ input{
   border-radius:15px;
   border:1px solid #ddd;
   text-align:center;
-  font-size:18px;
+  font-size:17px;
 }
+
+/* القلوب */
+.hearts{position:fixed;inset:0;overflow:hidden;z-index:0}
+.heart{
+ position:absolute;width:18px;height:18px;background:#ff4d6d;
+ transform:rotate(45deg);
+ animation:float linear infinite;
+ opacity:.5;
+}
+.heart:before,.heart:after{
+ content:'';position:absolute;width:18px;height:18px;background:#ff4d6d;border-radius:50%;
+}
+.heart:before{top:-9px}.heart:after{left:-9px}
+
+@keyframes float{
+ from{transform:translateY(100vh) rotate(45deg)}
+ to{transform:translateY(-10vh) rotate(45deg)}
+}
+
+#text{white-space:pre-line;line-height:2.1}
+#final{display:none;font-size:24px;margin-top:20px;animation:fade 1.2s forwards}
+@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+
+.hidden{display:none}
 </style>
 </head>
-
 <body>
-
 <div class="hearts"></div>
-
 <div class="card" id="login">
-  <h2>اكتبي تاريخ مهم بينا 🎀</h2>
-  <input id="pass" type="text" placeholder="">
-  <br><br>
-  <button onclick="check()">افتحي</button>
+<h2>اكتبي التاريخ 🎀</h2>
+<input id="pass" type="password">
+<br><br>
+<button onclick="enter()">دخول</button>
+<p id="err" style="color:red"></p>
 </div>
-
-<div class="card" id="content" style="display:none">
-  <h2>بصراحة 💗</h2>
-  <p id="text"></p>
-  <h3 id="days"></h3>
-  <h3 id="countdown"></h3>
-  <button onclick="playSong()">شغلي الأغنية 🎵</button>
-  <div id="final">أنا ماعملتش الصفحة دي علشان الفالنتاين…  
-أنا عملتها علشان أقولك إني اخترتك ❤️</div>
+<div class="card hidden" id="content">
+<h2>بصراحة 💗</h2>
+<p id="text"></p>
+<h3 id="days"></h3>
+<h3 id="countdown"></h3>
+<button onclick="start()">ابدئي 🎵</button>
+<div id="final">أنا مبعتش لينك… أنا بعتلك إحساس ❤️</div>
 </div>
-
-<audio id="song" src="https://files.catbox.moe/21wtjl.mp3"></audio>
-
 <script>
 
-/* باسورد */
-function check(){
-  if(document.getElementById("pass").value=="24/3"){
-    document.getElementById("login").style.display="none";
-    document.getElementById("content").style.display="block";
-    typeText();
-    calcDays();
-    countdown();
-  }
+/* قلوب */
+const h=document.querySelector(".hearts");
+for(let i=0;i<35;i++){
+ let e=document.createElement("div");
+ e.className="heart";
+ e.style.left=Math.random()*100+"vw";
+ e.style.animationDuration=5+Math.random()*6+"s";
+ h.appendChild(e);
 }
 
-/* كتابة حرف حرف */
-const message=`يمكن مش بعرف أقول كلام كبير...
-بس وجودك في يومي بقى جزء مني مش حاجة عابرة.
+/* دخول */
+function enter(){
+ if(pass.value==="24/3"){
+  login.classList.add("hidden");
+  content.classList.remove("hidden");
+  calcDays();
+  birthday();
+ }else err.innerText="غلط 🙈";
+}
 
-من يوم 2 يوليو 2025
-و أنا بقيت بشوف حاجات كتير بشكل أحلى...
-ضحكتك بقت أهدى
-و مزاجي بقى أروق
+/* الأيام */
+function calcDays(){
+ const start=Date.UTC(2025,6,2);
+ const now=Date.UTC(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+ const diff=Math.floor((now-start)/86400000);
+ days.innerText="عدى علينا "+diff+" يوم سوا 💞";
+}
 
-مش شرط نتكلم طول الوقت
-ولا نعمل حاجات كبيرة
-كفاية إحساس إنك معايا
+/* عداد عيد ميلاد */
+function birthday(){
+ const target=new Date("2026-03-24T00:00:00");
+ setInterval(()=>{
+  let now=new Date();
+  let d=Math.floor((target-now)/86400000);
+  let h=Math.floor((target-now)%86400000/3600000);
+  let m=Math.floor((target-now)%3600000/60000);
+  countdown.innerText="فاضل "+d+" يوم "+h+" ساعة "+m+" دقيقة 🎂";
+ },1000);
+}
 
-بس أنا مرتاح معاكي بشكل مش طبيعي...
-و مبسوط إننا بنكتب حكايتنا يوم بيوم`;
+/* كتابة */
+const msg=`يمكن مش بعرف أقول كلام كبير...
+بس وجودك بقى جزء من يومي مش حاجة عابرة
+
+من 2 يوليو 2025
+وأنا بقيت أشوف حاجات كتير بشكل أحلى
+حتى الأيام العادية بقت ليها معنى
+
+يمكن مش بقولها كتير
+بس أنا مرتاح معاكي بشكل حقيقي ❤️`;
 
 let i=0;
-function typeText(){
-  let speed=35;
-  if(i<message.length){
-    document.getElementById("text").innerHTML+=message.charAt(i);
-    i++;
-    setTimeout(typeText,speed);
-  }else{
-    document.getElementById("final").style.display="block";
-    confetti();
-  }
+function start(){
+ song.volume=.6;
+ song.play();
+ requestAnimationFrame(type);
 }
 
-/* حساب الأيام */
-function calcDays(){
-  let start=new Date("2025-07-02");
-  let now=new Date();
-  let diff=Math.floor((now-start)/(1000*60*60*24));
-  document.getElementById("days").innerText="عدى علينا "+diff+" يوم سوا 💞";
-}
-
-/* عداد عيد الميلاد */
-function countdown(){
-  let bday=new Date("2026-03-24");
-  let now=new Date();
-  let diff=Math.floor((bday-now)/(1000*60*60*24));
-  document.getElementById("countdown").innerText="فاضل "+diff+" يوم على عيد ميلادك 🎂";
-}
-
-/* تشغيل الأغنية */
-function playSong(){
-  let audio=document.getElementById("song");
-  audio.volume=0.6;
-  audio.play();
-}
-
-/* قلوب */
-const container=document.querySelector(".hearts");
-for(let i=0;i<40;i++){
-  let h=document.createElement("div");
-  h.className="heart";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(5+Math.random()*6)+"s";
-  h.style.opacity=Math.random();
-  container.appendChild(h);
+function type(){
+ if(i<msg.length){
+  text.innerHTML+=msg.charAt(i);
+  i++;
+  setTimeout(()=>requestAnimationFrame(type),35);
+ }else{
+  final.style.display="block";
+  boom();
+ }
 }
 
 /* كونفيتي */
-function confetti(){
-  for(let i=0;i<80;i++){
-    let c=document.createElement("div");
-    c.style.position="fixed";
-    c.style.width="6px";
-    c.style.height="6px";
-    c.style.background=["#ff4d6d","#ff99aa","#ffc2d1"][Math.floor(Math.random()*3)];
-    c.style.left=Math.random()*100+"vw";
-    c.style.top="-10px";
-    c.style.borderRadius="50%";
-    c.style.zIndex="999";
-    c.style.transition="3s linear";
-    document.body.appendChild(c);
-    setTimeout(()=>{c.style.top="100vh";},50);
-  }
+function boom(){
+ for(let i=0;i<70;i++){
+  let c=document.createElement("div");
+  c.style.position="fixed";
+  c.style.width="6px";c.style.height="6px";
+  c.style.background=["#ff4d6d","#ffa3b5","#ffd6e0"][Math.floor(Math.random()*3)];
+  c.style.left=Math.random()*100+"vw";
+  c.style.top="-10px";
+  c.style.borderRadius="50%";
+  c.style.transition="3s linear";
+  document.body.appendChild(c);
+  setTimeout(()=>c.style.top="110vh",50);
+ }
 }
 
 </script>
 </body>
 </html>
+:::
