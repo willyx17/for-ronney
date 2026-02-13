@@ -54,25 +54,59 @@ button:active{transform:scale(.95)}
 
 <body>
 
-<div class="card">
+<div class="card" id="content">
+
 <h2>بصراحة 💗</h2>
 
-<input id="pass" type="password" placeholder="اكتبي التاريخ">
-<br>
-<button onclick="check()">دخول</button>
+<p id="text">
+هنا الرسالة...
+</p>
+
+<h3 id="daysTogether"></h3>
+<h3 id="countdown"></h3>
+
+<button id="play">شغلي الأغنية 🎵</button>
+
 </div>
 
 <script>
-function check(){
-let p=document.getElementById("pass").value.trim();
+// تاريخ بداية علاقتكم
+const loveDate = new Date("2025-07-02T00:00:00");
 
-if(p=="24/3"){
-window.location.href="message.html";
-}else{
-alert("حاولي تاني 🥺");
+// عيد ميلادها
+const birthday = new Date("2026-03-24T00:00:00");
+
+function updateCounters(){
+
+  const now = new Date();
+
+  // ====== عدد الأيام سوا ======
+  const diffLove = now - loveDate;
+  const daysTogether = Math.floor(diffLove / (1000*60*60*24));
+
+  document.getElementById("daysTogether").innerText =
+  "عدى علينا " + daysTogether + " يوم سوا 💞";
+
+
+  // ====== العد التنازلي لعيد ميلادها ======
+  const diffBirth = birthday - now;
+
+  if(diffBirth > 0){
+    const d = Math.floor(diffBirth / (1000*60*60*24));
+    const h = Math.floor((diffBirth/(1000*60*60)) % 24);
+    const m = Math.floor((diffBirth/(1000*60)) % 60);
+
+    document.getElementById("countdown").innerText =
+    "فاضل " + d + " يوم " + h + " ساعة " + m + " دقيقة 🎂";
+  }
+  else{
+    document.getElementById("countdown").innerText =
+    "النهارده عيد ميلادك 🎉";
+  }
 }
-}
+
+updateCounters();
+setInterval(updateCounters,60000);
 </script>
-
 </body>
 </html>
