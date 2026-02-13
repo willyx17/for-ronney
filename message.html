@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💌</title>
+<style>
+body{
+margin:0;
+font-family:system-ui;
+background:black;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+text-align:center;
+overflow:hidden;
+}
+
+#text{
+max-width:700px;
+line-height:2;
+font-size:22px;
+white-space:pre-line;
+padding:20px;
+}
+</style>
+</head>
+<body>
+<div id="text"></div>
+<script>
+
+const message=
+`يمكن مش بعرف أقول كلام كبير...
+
+بس وجودك في يومي بقى جزء مني.
+
+من يوم 2 يوليو 2025
+و أنا بقيت بشوف حاجات كتير بشكل أحلى
+ضحكتك بقت أهدى
+و مزاجي بقى أروق
+و حتى الأيام الوحشة بقيت أعديها بسهولة
+عشان انتي موجودة فيها.
+
+مش شرط نتكلم طول الوقت
+ولا نعمل حاجات كبيرة
+كفاية إحساس إنك معايا
+ده لوحده بيخليني مبسوط.
+
+يمكن مش بقولها دايماً...
+بس أنا مرتاح معاكي بجد ❤️`;
+
+/* كتابة تدريجية */
+let i=0;
+function type(){
+if(i<message.length){
+document.getElementById("text").innerHTML+=message[i];
+i++;
+setTimeout(type,35);
+}}
+type();
+
+/* قلوب سوداء */
+setInterval(()=>{
+let h=document.createElement("div");
+h.innerHTML="❤";
+h.style.position="fixed";
+h.style.bottom="-20px";
+h.style.left=Math.random()*100+"vw";
+h.style.fontSize="20px";
+h.style.opacity=".5";
+h.style.animation="float 6s linear forwards";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},600);
+
+</script>
+<style>
+@keyframes float{
+from{transform:translateY(0)}
+to{transform:translateY(-110vh)}
+}
+</style>
+</body>
+</html>
