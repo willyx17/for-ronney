@@ -3,92 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ليكي انتي ❤️</title>
+<title>لـ روني ❤️</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
-
 body{
-  margin:0;
-  font-family: system-ui;
-  background: linear-gradient(135deg,#ffd1dc,#ffe6f0);
-  text-align:center;
-  overflow-x:hidden;
+margin:0;
+font-family:system-ui;
+background:linear-gradient(135deg,#ffd6e0,#ffe5ec,#fff0f3);
+text-align:center;
+padding:40px;
+overflow:hidden;
 }
 
-/* الكارت */
 .card{
-  background:white;
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
-  max-width:500px;
-  margin:80px auto;
-  transition:.5s;
+background:white;
+padding:30px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,.15);
+max-width:500px;
+margin:auto;
 }
-
 .hidden{display:none}
 
-/* زرار */
 button{
-  background:#ff4d6d;
-  border:none;
-  color:white;
-  padding:12px 22px;
-  border-radius:12px;
-  font-size:16px;
-  cursor:pointer;
+background:linear-gradient(45deg,#ff4d6d,#ff8fab);
+color:white;border:none;
+padding:14px 26px;
+font-size:18px;border-radius:40px;
+cursor:pointer;margin-top:20px;
 }
 
-/* الدبدوب */
-.bear{
-  width:160px;
-  margin-top:15px;
-  animation:bounce 2s infinite;
+input{
+padding:12px;
+border-radius:15px;
+border:1px solid #ddd;
+font-size:18px;
+text-align:center;
 }
 
-@keyframes bounce{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-18px)}
-}
+.bear{width:140px;margin-top:20px;animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
 
-/* القلوب */
-.hearts{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  z-index:-1;
-}
-
-.heart{
-  position:absolute;
-  width:20px;
-  height:20px;
-  background:red;
-  transform:rotate(45deg);
-  animation:float linear infinite;
-}
-
-.heart:before,
-.heart:after{
-  content:"";
-  position:absolute;
-  width:20px;
-  height:20px;
-  background:red;
-  border-radius:50%;
-}
-
-.heart:before{top:-10px;left:0}
-.heart:after{left:-10px;top:0}
-
-@keyframes float{
-  from{transform:translateY(100vh) rotate(45deg)}
-  to{transform:translateY(-10vh) rotate(45deg)}
-}
-
+.hearts{position:fixed;inset:0;z-index:-1}
+.heart{position:absolute;width:20px;height:20px;background:red;transform:rotate(45deg);animation:float linear infinite}
+.heart:before,.heart:after{content:"";position:absolute;width:20px;height:20px;background:red;border-radius:50%}
+.heart:before{top:-10px}.heart:after{left:-10px}
+@keyframes float{from{transform:translateY(100vh) rotate(45deg)}to{transform:translateY(-10vh) rotate(45deg)}}
 </style>
 </head>
 
@@ -96,68 +58,101 @@ button{
 
 <div class="hearts"></div>
 
-<!-- البداية -->
-<div class="card" id="start">
-  <h2>دوسي هنا ❤️</h2>
-  <button onclick="openMsg()">افتحي</button>
+<div class="card" id="lock">
+<h2>ادخلي الباسورد 🙈</h2>
+<input id="pass" placeholder="اكتبي التاريخ">
+<br>
+<button onclick="checkPass()">دخول</button>
+<p id="wrong" style="color:red"></p>
 </div>
 
-<!-- الرسالة -->
+<div class="card hidden" id="start">
+<h2>دوسي هنا ❤️</h2>
+<button onclick="openMsg()">افتحي</button>
+</div>
+
 <div class="card hidden" id="msg">
+<h2>بصراحة 💗</h2>
 
-  <h2>بصراحة 💗</h2>
+<p>
+يمكن مش بعرف اشرح اللي جوايا كويس  
+بس في حاجة واحدة بقيت متأكد منها
 
-  <p>
-  من يوم 2 يوليو 2025  
-  وانتي بقيتي جزء من يومي  
-  مش حاجة عابرة
-  </p>
+وجودك بقى فرق معايا  
+في يومي… في مزاجي… وحتى في تفكيري
 
-  <h3 id="days"></h3>
+بقيت بلاقي نفسي بحكيلك حاجات  
+ماكنتش بحكيها لحد
 
-  <p>
-  يمكن مش بعرف اقول كلام كبير  
-  بس وجودك فارق معايا بجد ❤️
-  </p>
+وبستنى كلامك حتى لو عادي  
+عشان منك بيبقى ليه طعم تاني
 
-  <img class="bear" src="https://media.tenor.com/8Qx9zQbJ1UcAAAAi/cute-bear.gif">
+أنا مش بقول كلام كبير  
+بس بقول الحقيقة
 
+انتي بقيتي قريبة مني  
+بطريقة انا نفسي ملاحظتهاش غير متأخر
+
+ويمكن مش بعرف أقولها دايمًا  
+بس أنا مرتاح معاكي ❤️
+</p>
+
+<h3 id="days"></h3>
+
+<img class="bear" src="https://media.tenor.com/8Qx9zQbJ1uQAAAAi/bear-love.gif">
+<br>
+<button onclick="playSong()">شغلي الأغنية 🎵</button>
 </div>
+
+<audio id="song" loop>
+<source src="https://files.catbox.moe/21wtjl.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 
-/* قلوب الخلفية */
-window.onload = function(){
-
-const heartsContainer = document.querySelector(".hearts");
-
-for(let i=0;i<25;i++){
-  let heart=document.createElement("div");
-  heart.className="heart";
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.animationDuration=(5+Math.random()*5)+"s";
-  heart.style.opacity=Math.random();
-  heartsContainer.appendChild(heart);
+function checkPass(){
+if(document.getElementById("pass").value==="24/3"){
+document.getElementById("lock").classList.add("hidden");
+document.getElementById("start").classList.remove("hidden");
+}else{
+document.getElementById("wrong").innerText="غلط 😅";
+}
 }
 
-}
-
-/* فتح الرسالة + عداد الايام */
 function openMsg(){
-
 document.getElementById("start").classList.add("hidden");
 document.getElementById("msg").classList.remove("hidden");
 
 let start=new Date("2025-07-02");
 let now=new Date();
-let diff=Math.floor((now-start)/(1000*60*60*24));
+let diff=Math.floor((now-start)/(10006060*24));
+document.getElementById("days").innerText="عدى علينا "+diff+" يوم سوا 🥹";
 
-document.getElementById("days").innerText=
-"عدى علينا "+diff+" يوم سوا 🥹";
-
+const duration=2500;
+const end=Date.now()+duration;
+(function frame(){
+confetti({particleCount:6,angle:60,spread:70,origin:{x:0}});
+confetti({particleCount:6,angle:120,spread:70,origin:{x:1}});
+if(Date.now()<end){requestAnimationFrame(frame);}
+})();
 }
 
+function playSong(){
+let audio=document.getElementById("song");
+audio.volume=0.6;
+audio.play();
+}
+
+const container=document.querySelector(".hearts");
+for(let i=0;i<30;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(5+Math.random()*5)+"s";
+h.style.opacity=Math.random();
+container.appendChild(h);
+}
 </script>
 
 </body>
-</html>
+</ht
