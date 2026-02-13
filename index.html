@@ -1,70 +1,163 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ليكي انتي ❤️</title>
+
 <style>
+
 body{
-font-family: system-ui;
-background:linear-gradient(135deg,#ffd6e0,#fff);
-text-align:center;
-padding:40px;
+  margin:0;
+  font-family: system-ui;
+  background: linear-gradient(135deg,#ffd1dc,#ffe6f0);
+  text-align:center;
+  overflow-x:hidden;
 }
 
+/* الكارت */
 .card{
-background:white;
-padding:30px;
-border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,.15);
-max-width:500px;
-margin:auto;
-transition:.5s;
-}
-
-button{
-padding:12px 25px;
-border:none;
-border-radius:12px;
-background:#ff4d6d;
-color:white;
-font-size:18px;
-cursor:pointer;
-margin-top:20px;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  max-width:500px;
+  margin:80px auto;
+  transition:.5s;
 }
 
 .hidden{display:none}
-#days{color:#ff4d6d;font-weight:bold}
+
+/* زرار */
+button{
+  background:#ff4d6d;
+  border:none;
+  color:white;
+  padding:12px 22px;
+  border-radius:12px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* الدبدوب */
+.bear{
+  width:160px;
+  margin-top:15px;
+  animation:bounce 2s infinite;
+}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-18px)}
+}
+
+/* القلوب */
+.hearts{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  z-index:-1;
+}
+
+.heart{
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:red;
+  transform:rotate(45deg);
+  animation:float linear infinite;
+}
+
+.heart:before,
+.heart:after{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  background:red;
+  border-radius:50%;
+}
+
+.heart:before{top:-10px;left:0}
+.heart:after{left:-10px;top:0}
+
+@keyframes float{
+  from{transform:translateY(100vh) rotate(45deg)}
+  to{transform:translateY(-10vh) rotate(45deg)}
+}
+
 </style>
 </head>
+
 <body>
+
+<div class="hearts"></div>
+
+<!-- البداية -->
 <div class="card" id="start">
-<h2>دوسي هنا ❤️</h2>
-<button onclick="openMsg()">افتحي</button>
+  <h2>دوسي هنا ❤️</h2>
+  <button onclick="openMsg()">افتحي</button>
 </div>
+
+<!-- الرسالة -->
 <div class="card hidden" id="msg">
-<h2>بصراحة 💗</h2>
-<p>
-من يوم 2 يوليو 2025  
-وانتي بقيتي جزء من يومي  
-مش حاجة عابرة
-</p>
-<h3 id="days"></h3>
-<p>
-يمكن مش بعرف اقول كلام كبير  
-بس وجودك فارق معايا بجد ❤️
-</p>
+
+  <h2>بصراحة 💗</h2>
+
+  <p>
+  من يوم 2 يوليو 2025  
+  وانتي بقيتي جزء من يومي  
+  مش حاجة عابرة
+  </p>
+
+  <h3 id="days"></h3>
+
+  <p>
+  يمكن مش بعرف اقول كلام كبير  
+  بس وجودك فارق معايا بجد ❤️
+  </p>
+
+  <img class="bear" src="https://media.tenor.com/8Qx9zQbJ1UcAAAAi/cute-bear.gif">
+
 </div>
+
 <script>
+
+/* قلوب الخلفية */
+window.onload = function(){
+
+const heartsContainer = document.querySelector(".hearts");
+
+for(let i=0;i<25;i++){
+  let heart=document.createElement("div");
+  heart.className="heart";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=(5+Math.random()*5)+"s";
+  heart.style.opacity=Math.random();
+  heartsContainer.appendChild(heart);
+}
+
+}
+
+/* فتح الرسالة + عداد الايام */
 function openMsg(){
+
 document.getElementById("start").classList.add("hidden");
 document.getElementById("msg").classList.remove("hidden");
 
 let start=new Date("2025-07-02");
 let now=new Date();
 let diff=Math.floor((now-start)/(1000*60*60*24));
-document.getElementById("days").innerText="عدى "+diff+" يوم من يوم ما عرفتك 🥹";
+
+document.getElementById("days").innerText=
+"عدى علينا "+diff+" يوم سوا 🥹";
+
 }
+
 </script>
+
 </body>
 </html>
