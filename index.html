@@ -1,4 +1,3 @@
-"}
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -9,104 +8,169 @@
 <style>
 body{
 margin:0;
-height:100vh;
+font-family: Arial, sans-serif;
+background: linear-gradient(to bottom,#f8cdda,#fbc2eb);
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(135deg,#ffd1dc,#ffe6f0);
-font-family:system-ui;
+height:100vh;
+overflow:hidden;
 }
 
 .card{
 background:white;
-padding:35px;
-border-radius:25px;
+padding:30px;
+border-radius:20px;
+width:90%;
+max-width:400px;
 text-align:center;
-width:85%;
-max-width:350px;
-box-shadow:0 10px 40px rgba(0,0,0,.15);
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+position:relative;
+z-index:2;
 }
 
 input{
 width:80%;
-padding:14px;
-border-radius:15px;
-border:2px solid #eee;
-font-size:18px;
+padding:10px;
+border-radius:10px;
+border:1px solid #ddd;
+margin:15px 0;
 text-align:center;
-margin-top:15px;
+font-size:16px;
 }
 
 button{
-margin-top:18px;
-padding:14px 30px;
+background:#ff4f7b;
 border:none;
-border-radius:20px;
-font-size:18px;
-background:#ff4d79;
+padding:12px 25px;
+border-radius:25px;
 color:white;
+font-size:16px;
 cursor:pointer;
+margin-top:10px;
 }
 
-button:active{transform:scale(.95)}
+#content{
+display:none;
+margin-top:15px;
+font-size:15px;
+line-height:1.8;
+}
+
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:float 6s linear infinite;
+opacity:0.7;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+100%{transform:translateY(-110vh);}
+}
 </style>
 </head>
 
 <body>
 
-<div class="card" id="content">
+<div class="card">
 
 <h2>بصراحة 💗</h2>
 
-<p id="text">
-هنا الرسالة...
-</p>
+<div id="login">
+<input type="password" id="pass" placeholder="اكتبي التاريخ">
+<br>
+<button onclick="checkPass()">دخول</button>
+</div>
 
+<div id="content">
+<p id="text"></p>
 <h3 id="daysTogether"></h3>
 <h3 id="countdown"></h3>
-
-<button id="play">شغلي الأغنية 🎵</button>
+</div>
 
 </div>
 
 <script>
-// تاريخ بداية علاقتكم
-const loveDate = new Date("2025-07-02T00:00:00");
 
-// عيد ميلادها
-const birthday = new Date("2026-03-24T00:00:00");
-
-function updateCounters(){
-
-  const now = new Date();
-
-  // ====== عدد الأيام سوا ======
-  const diffLove = now - loveDate;
-  const daysTogether = Math.floor(diffLove / (1000*60*60*24));
-
-  document.getElementById("daysTogether").innerText =
-  "عدى علينا " + daysTogether + " يوم سوا 💞";
-
-
-  // ====== العد التنازلي لعيد ميلادها ======
-  const diffBirth = birthday - now;
-
-  if(diffBirth > 0){
-    const d = Math.floor(diffBirth / (1000*60*60*24));
-    const h = Math.floor((diffBirth/(1000*60*60)) % 24);
-    const m = Math.floor((diffBirth/(1000*60)) % 60);
-
-    document.getElementById("countdown").innerText =
-    "فاضل " + d + " يوم " + h + " ساعة " + m + " دقيقة 🎂";
-  }
-  else{
-    document.getElementById("countdown").innerText =
-    "النهارده عيد ميلادك 🎉";
-  }
+// الباسورد
+function checkPass(){
+let p=document.getElementById("pass").value;
+if(p==="24/3"){
+document.getElementById("login").style.display="none";
+document.getElementById("content").style.display="block";
+startAll();
+}else{
+alert("غلط 😅");
+}
 }
 
+// الرسالة
+const message=`يمكن مش بعرف أقول كلام كبير...
+بس وجودك في يومي بقى جزء مني.
+من يوم 2 يوليو 2025
+وانتي بقيتي عادة حلوة في حياتي ❤️
+
+مش شرط نتكلم طول الوقت
+ولا نعمل حاجات كبيرة
+كفاية إحساس إنك معايا
+ده لوحده بيخليني مبسوط.
+
+يمكن مش بقولها دايماً...
+بس أنا مرتاح معاكي بجد 💗`;
+
+let i=0;
+
+function typeWriter(){
+if(i<message.length){
+document.getElementById("text").innerHTML+=message.charAt(i);
+i++;
+setTimeout(typeWriter,35);
+}
+}
+
+// العدادات
+const loveDate=new Date("2025-07-02T00:00:00");
+const birthday=new Date("2026-03-24T00:00:00");
+
+function updateCounters(){
+let now=new Date();
+
+let diffLove=now-loveDate;
+let days=Math.floor(diffLove/(1000*60*60*24));
+document.getElementById("daysTogether").innerText=
+"عدى علينا "+days+" يوم سوا 💞";
+
+let diffBirth=birthday-now;
+if(diffBirth>0){
+let d=Math.floor(diffBirth/(1000*60*60*24));
+let h=Math.floor((diffBirth/(1000*60*60))%24);
+let m=Math.floor((diffBirth/(1000*60))%60);
+
+document.getElementById("countdown").innerText=
+"فاضل "+d+" يوم "+h+" ساعة "+m+" دقيقة 🎂";
+}
+}
+
+function startAll(){
+typeWriter();
 updateCounters();
 setInterval(updateCounters,60000);
+}
+
+// القلوب
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(4+Math.random()*4)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},800);
+
 </script>
+
 </body>
 </html>
