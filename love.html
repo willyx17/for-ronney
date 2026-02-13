@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💗</title>
+<style>
+body{
+margin:0;
+background:black;
+color:white;
+font-family:system-ui;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+text-align:center;
+}
+
+#text{
+width:85%;
+max-width:500px;
+font-size:22px;
+line-height:2;
+white-space:pre-line;
+}
+
+.heart{
+position:fixed;
+color:#ff4d6d;
+font-size:20px;
+animation:up 6s linear infinite;
+opacity:.6;
+}
+
+@keyframes up{
+from{transform:translateY(100vh)}
+to{transform:translateY(-10vh)}
+}
+</style>
+</head>
+<body>
+<div id="text"></div>
+<script>
+
+/* قلوب */
+for(let i=0;i<25;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=4+Math.random()*4+"s";
+document.body.appendChild(h);
+}
+
+/* الرسالة */
+const msg=`يمكن مش بعرف أقول كلام كبير...
+
+بس وجودك بقى جزء من يومي
+مش حاجة عابرة
+
+من 2 يوليو 2025
+وانتي بقيتي عادة حلوة في حياتي
+
+وكل يوم معاكي
+أحلى من اللي قبله ❤️`;
+
+let i=0;
+
+song.play();
+
+function type(){
+if(i<msg.length){
+text.innerHTML+=msg[i];
+i++;
+setTimeout(type,40);
+}else{
+setTimeout(()=>{
+text.innerHTML+="\n\nأنا مبعتش لينك...\nأنا بعتلك إحساس 💗";
+},1500);
+}
+}
+
+type();
+
+</script>
+</body>
+</html>
