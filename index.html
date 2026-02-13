@@ -1,158 +1,194 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لـ روني ❤️</title>
-
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+<title>ليكي ❤️</title>
 <style>
 body{
 margin:0;
-font-family:system-ui;
-background:linear-gradient(135deg,#ffd6e0,#ffe5ec,#fff0f3);
+font-family: system-ui;
+background: linear-gradient(135deg,#ffd6e7,#fff1f6);
 text-align:center;
-padding:40px;
-overflow:hidden;
+overflow-x:hidden;
 }
 
+/* كارت */
 .card{
 background:white;
+max-width:520px;
+margin:70px auto;
 padding:30px;
 border-radius:25px;
-box-shadow:0 10px 30px rgba(0,0,0,.15);
-max-width:500px;
-margin:auto;
+box-shadow:0 15px 40px rgba(0,0,0,.15);
+position:relative;
+z-index:2;
 }
+
+/* زرار */
+button{
+background:linear-gradient(45deg,#ff4d8d,#ff7aa8);
+border:none;
+color:white;
+padding:14px 26px;
+font-size:18px;
+border-radius:30px;
+cursor:pointer;
+transition:.3s;
+}
+button:hover{transform:scale(1.05)}
+
 .hidden{display:none}
 
-button{
-background:linear-gradient(45deg,#ff4d6d,#ff8fab);
-color:white;border:none;
-padding:14px 26px;
-font-size:18px;border-radius:40px;
-cursor:pointer;margin-top:20px;
+/* قلوب الخلفية */
+.hearts{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden}
+.heart{
+position:absolute;
+width:18px;height:18px;
+background:red;
+transform:rotate(45deg);
+animation:fall linear infinite;
+}
+.heart:before,.heart:after{
+content:"";
+position:absolute;
+width:18px;height:18px;
+background:red;
+border-radius:50%;
+}
+.heart:before{top:-9px;left:0}
+.heart:after{left:-9px;top:0}
+
+@keyframes fall{
+from{transform:translateY(-10vh) rotate(45deg)}
+to{transform:translateY(110vh) rotate(45deg)}
 }
 
-input{
-padding:12px;
-border-radius:15px;
-border:1px solid #ddd;
+/* كتابة */
+#typed{
+line-height:1.9;
 font-size:18px;
-text-align:center;
+white-space:pre-line;
 }
 
-.bear{width:140px;margin-top:20px;animation:bounce 2s infinite;}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
-
-.hearts{position:fixed;inset:0;z-index:-1}
-.heart{position:absolute;width:20px;height:20px;background:red;transform:rotate(45deg);animation:float linear infinite}
-.heart:before,.heart:after{content:"";position:absolute;width:20px;height:20px;background:red;border-radius:50%}
-.heart:before{top:-10px}.heart:after{left:-10px}
-@keyframes float{from{transform:translateY(100vh) rotate(45deg)}to{transform:translateY(-10vh) rotate(45deg)}}
+/* مفاجأة */
+#final{
+font-size:28px;
+font-weight:bold;
+color:#ff2a6d;
+animation:pop .8s ease;
+}
+@keyframes pop{
+from{transform:scale(.3);opacity:0}
+to{transform:scale(1);opacity:1}
+}
 </style>
 </head>
-
 <body>
-
 <div class="hearts"></div>
-
+<!-- باسورد -->
 <div class="card" id="lock">
-<h2>ادخلي الباسورد 🙈</h2>
-<input id="pass" placeholder="اكتبي التاريخ">
-<br>
+<h2>اكتبي التاريخ ❤️</h2>
+<input id="pass" placeholder="مثال 24/3">
+<br><br>
 <button onclick="checkPass()">دخول</button>
-<p id="wrong" style="color:red"></p>
+<p id="err" style="color:red"></p>
 </div>
-
-<div class="card hidden" id="start">
-<h2>دوسي هنا ❤️</h2>
-<button onclick="openMsg()">افتحي</button>
-</div>
-
+<!-- الرسالة -->
 <div class="card hidden" id="msg">
 <h2>بصراحة 💗</h2>
-
-<p>
-يمكن مش بعرف اشرح اللي جوايا كويس  
-بس في حاجة واحدة بقيت متأكد منها
-
-وجودك بقى فرق معايا  
-في يومي… في مزاجي… وحتى في تفكيري
-
-بقيت بلاقي نفسي بحكيلك حاجات  
-ماكنتش بحكيها لحد
-
-وبستنى كلامك حتى لو عادي  
-عشان منك بيبقى ليه طعم تاني
-
-أنا مش بقول كلام كبير  
-بس بقول الحقيقة
-
-انتي بقيتي قريبة مني  
-بطريقة انا نفسي ملاحظتهاش غير متأخر
-
-ويمكن مش بعرف أقولها دايمًا  
-بس أنا مرتاح معاكي ❤️
-</p>
-
+<p id="typed"></p>
 <h3 id="days"></h3>
-
-<img class="bear" src="https://media.tenor.com/8Qx9zQbJ1uQAAAAi/bear-love.gif">
+<h3 id="countdown"></h3>
 <br>
-<button onclick="playSong()">شغلي الأغنية 🎵</button>
+<button class="hidden" id="lastBtn" onclick="final()">في حاجة أخيرة</button>
 </div>
-
-<audio id="song" loop>
-<source src="https://files.catbox.moe/21wtjl.mp3" type="audio/mpeg">
-</audio>
-
+<!-- المفاجأة -->
+<div class="card hidden" id="finalCard">
+<p id="final">انتي احلى حاجة حصلتلي ❤️</p>
+</div>
 <script>
 
+/* باسورد */
 function checkPass(){
-if(document.getElementById("pass").value==="24/3"){
+if(document.getElementById("pass").value=="24/3"){
 document.getElementById("lock").classList.add("hidden");
-document.getElementById("start").classList.remove("hidden");
-}else{
-document.getElementById("wrong").innerText="غلط 😅";
-}
-}
-
-function openMsg(){
-document.getElementById("start").classList.add("hidden");
 document.getElementById("msg").classList.remove("hidden");
+startStory();
+}else{
+document.getElementById("err").innerText="غلط 😠";
+}
+}
 
+/* كتابة */
+const text=`يمكن مش بعرف أقول كلام كبير...
+بس وجودك فرق معايا بجد
+و بقيتي جزء من يومي
+و من تفكيري
+و من حاجات كتير مش بعرف احكيها
+
+بس أنا مرتاح معاكي ❤️`;
+
+let i=0;
+function typeWriter(){
+if(i<text.length){
+document.getElementById("typed").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typeWriter,40);
+}else{
+document.getElementById("lastBtn").classList.remove("hidden");
+}
+}
+
+/* بداية */
+function startStory(){
+document.getElementById("song").play();
+typeWriter();
+calcDays();
+birthdayCountdown();
+}
+
+/* حساب الأيام */
+function calcDays(){
 let start=new Date("2025-07-02");
 let now=new Date();
-let diff=Math.floor((now-start)/(10006060*24));
-document.getElementById("days").innerText="عدى علينا "+diff+" يوم سوا 🥹";
-
-const duration=2500;
-const end=Date.now()+duration;
-(function frame(){
-confetti({particleCount:6,angle:60,spread:70,origin:{x:0}});
-confetti({particleCount:6,angle:120,spread:70,origin:{x:1}});
-if(Date.now()<end){requestAnimationFrame(frame);}
-})();
+let diff=Math.floor((now-start)/(1000*60*60*24));
+document.getElementById("days").innerText="عدى علينا "+diff+" يوم سوا 🤍";
 }
 
-function playSong(){
-let audio=document.getElementById("song");
-audio.volume=0.6;
-audio.play();
+/* عد تنازلي */
+function birthdayCountdown(){
+const target=new Date("2026-03-24T00:00:00");
+
+setInterval(()=>{
+let now=new Date();
+let diff=target-now;
+
+let d=Math.floor(diff/(1000*60*60*24));
+let h=Math.floor((diff/(1000*60*60))%24);
+let m=Math.floor((diff/60000)%60);
+
+document.getElementById("countdown").innerText=
+"فاضل "+d+" يوم و "+h+" ساعة و "+m+" دقيقة لعيد ميلادك 🎂";
+},1000);
 }
 
+/* مفاجأة */
+function final(){
+document.getElementById("msg").classList.add("hidden");
+document.getElementById("finalCard").classList.remove("hidden");
+}
+
+/* قلوب */
 const container=document.querySelector(".hearts");
-for(let i=0;i<30;i++){
+for(let i=0;i<40;i++){
 let h=document.createElement("div");
 h.className="heart";
 h.style.left=Math.random()*100+"vw";
-h.style.animationDuration=(5+Math.random()*5)+"s";
+h.style.animationDuration=(5+Math.random()*6)+"s";
 h.style.opacity=Math.random();
 container.appendChild(h);
 }
 </script>
-
 </body>
 </html>
